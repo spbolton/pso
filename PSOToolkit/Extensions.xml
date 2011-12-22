@@ -783,5 +783,17 @@
       </PSXExtensionParamDef>
       <suppliedResources/>
    </Extension>
+   
+   <!--  New Validation Hooks -->
+   
+   <Extension name="PSValidationItemValidationHook" context="user/" handler="Java" categorystring="itemvalidation" deprecated="no" restoreRequestParamsOnError="no">
+		<initParam name="com.percussion.user.description">Item Validation exit hook into new Validation</initParam>
+		<initParam name="com.percussion.extension.version">1</initParam>
+		<initParam name="className">com.percussion.pso.services.validation.hooks.PSValidationItemValidationHook</initParam>
+		<initParam name="com.percussion.extension.reentrant">yes</initParam>
+		<interface name="com.percussion.extension.IPSItemValidator"/>
+		<interface name="com.percussion.extension.IPSResultDocumentProcessor" />
+        <suppliedResources/>
+     </Extension>
   
 </PSXExtensionHandlerConfiguration>

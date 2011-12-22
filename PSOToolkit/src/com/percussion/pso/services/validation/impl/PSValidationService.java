@@ -1,31 +1,46 @@
 package com.percussion.pso.services.validation.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.percussion.pso.services.validation.IPSValidationContext;
-import com.percussion.pso.services.validation.IPSValidationContext.EVENT;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.percussion.pso.services.validation.IPSValidationService;
 import com.percussion.pso.services.validation.IPSValidator;
 import com.percussion.pso.services.validation.exceptions.PSValidationException;
+import com.percussion.pso.services.validation.impl.PSValidationContext.Event;
+
+
+
 
 public class PSValidationService implements IPSValidationService {
-	private Map<EVENT,List<IPSValidator>> validators;
+	/**
+	 * Logger for this class
+	 */
+	private static final Log log = LogFactory.getLog(PSValidationService.class);
+	
+	private Map<Event,List<IPSValidator>> validators = new HashMap<Event,List<IPSValidator>>();
 	@Override
 	public List<IPSValidator> getValidators() {
+		log.debug("getting validators");
 		List<IPSValidator> retValidators = new ArrayList<IPSValidator>();
-		for (Entry<EVENT, List<IPSValidator>> entry: validators.entrySet()) {
-			retValidators.addAll(entry.getValue());
+		if (validators != null) {
+			for (Entry<Event, List<IPSValidator>> entry: validators.entrySet()) {
+				retValidators.addAll(entry.getValue());
+			}
 		}
 		return retValidators;
 	}
 
 	@Override
 	public void setValidators(List<IPSValidator> validators) {
-		for (IPSValidator validator : validators) {
-			for (EVENT event : validator.getEvents()) {
+		log.debug("Setting validators :" + validators.toString());
+			for (IPSValidator validator : validators) {
+				for (Event event : validator.getEvents()) {
 				
 				List<IPSValidator> validatorList =  this.validators.get(event);
 				if (validatorList == null) { 
@@ -33,18 +48,25 @@ public class PSValidationService implements IPSValidationService {
 					this.validators.put(event, validatorList);
 				}
 				validatorList.add(validator);	
-			}
-			
+			}	
 		}
+		
 	}
 
 	@Override
-	public void validate(IPSValidationContext context)
+	public PSValidationResult validate(PSValidationContext context)
 			throws PSValidationException {
-			for (IPSValidator validator : this.validators.get(context.getEvent())) {
-						validator.validate(context);
-			}
-		
+		log.debug("Validating with context :"+context);
+				PSValidationResult fullResult = new PSValidationResult();
+				List<IPSValidator> validatorsForEvent = this.validators.get(context.getEvent());
+				if (validatorsForEvent != null) {
+					for (IPSValidator validator : this.validators.get(context.getEvent())) {
+						PSValidationResult result = validator.validate(context);
+						fullResult.addErrors(result.getErrors());
+						if (!result.isContinueValidation()) break;
+					}
+				}
+		return fullResult;
 	}
 
 }

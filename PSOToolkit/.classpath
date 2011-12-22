@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="ivylib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="ivylib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="ivylib/hibernate.jar"/>
-	<classpathentry kind="lib" path="ivylib/jcr.jar"/>
+	<classpathentry kind="lib" path="ivylib/jcr.jar" sourcepath="/Rhythmyx-Main"/>
 	<classpathentry kind="lib" path="ivylib/jmock-junit3.jar"/>
 	<classpathentry kind="lib" path="ivylib/jmock-junit4.jar"/>
 	<classpathentry kind="lib" path="ivylib/jmock.jar"/>
@@ -43,9 +43,9 @@
 	<classpathentry kind="lib" path="ivylib/rxmisctools.jar"/>
 	<classpathentry kind="lib" path="ivylib/rxpublisher.jar"/>
 	<classpathentry kind="lib" path="ivylib/rxserver.jar" sourcepath="/Rhythmyx-Main"/>
-	<classpathentry kind="lib" path="ivylib/rxservices.jar"/>
+	<classpathentry kind="lib" path="ivylib/rxservices.jar" sourcepath="/Rhythmyx-Main"/>
 	<classpathentry kind="lib" path="ivylib/rxtablefactory.jar"/>
-	<classpathentry kind="lib" path="ivylib/rxutils.jar"/>
+	<classpathentry kind="lib" path="ivylib/rxutils.jar" sourcepath="/Rhythmyx-Main"/>
 	<classpathentry kind="lib" path="ivylib/rxwebservices.jar"/>
 	<classpathentry kind="lib" path="ivylib/rxworkflow.jar"/>
 	<classpathentry kind="lib" path="ivylib/saxon.jar"/>

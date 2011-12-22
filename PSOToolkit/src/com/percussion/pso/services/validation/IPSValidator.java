@@ -2,11 +2,13 @@ package com.percussion.pso.services.validation;
 
 import java.util.List;
 
-import com.percussion.pso.services.validation.IPSValidationContext.EVENT;
 import com.percussion.pso.services.validation.exceptions.PSValidationException;
+import com.percussion.pso.services.validation.impl.PSValidationContext;
+import com.percussion.pso.services.validation.impl.PSValidationContext.Event;
+import com.percussion.pso.services.validation.impl.PSValidationResult;
 
 public interface IPSValidator {
-	public List<EVENT> getEvents();
-	public void setEvents(List<EVENT> events);
-	public void validate(IPSValidationContext context) throws PSValidationException;
+	public List<Event> getEvents();
+	public void setEvents(List<Event> events);
+	public PSValidationResult validate(PSValidationContext context) throws PSValidationException;
 }
