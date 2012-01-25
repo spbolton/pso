@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <bean id="psValidators" class="com.percussion.pso.services.validation.impl.PSValidationService"
+      >
+      <property name="validators">
+         	<ref local="psoTestValidator"/>
+       </property>  
+    </bean>
+    
+    <bean id="psoTestValidator" class="com.percussion.pso.services.validation.impl.PSJexlValidator">
+      <property name="validationJexl">
+      	<value><![CDATA[
+      		$value = $validationContext.Node.getProperty("rx:testfield").String;
+      		$validationResult.addError("This is an error on testfield value=" +$value);
+      		true;
+      	]]>	
+      	</value>
+      </property>
+      <property name="events">
+      	<list>
+      		<value>TRANSITION_ITEM</value>
+      	</list>
+      </property>
+    </bean>
+</beans>

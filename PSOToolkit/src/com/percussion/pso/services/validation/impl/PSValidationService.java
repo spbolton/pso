@@ -57,15 +57,18 @@ public class PSValidationService implements IPSValidationService {
 	public PSValidationResult validate(PSValidationContext context)
 			throws PSValidationException {
 		log.debug("Validating with context :"+context);
-				PSValidationResult fullResult = new PSValidationResult();
+		
+				PSValidationResult fullResult = new PSValidationResult(context);
 				List<IPSValidator> validatorsForEvent = this.validators.get(context.getEvent());
 				if (validatorsForEvent != null) {
 					for (IPSValidator validator : this.validators.get(context.getEvent())) {
+						log.debug("Running validator "+validator);
 						PSValidationResult result = validator.validate(context);
 						fullResult.addErrors(result.getErrors());
 						if (!result.isContinueValidation()) break;
 					}
 				}
+	
 		return fullResult;
 	}
 

@@ -1,10 +1,13 @@
 package com.percussion.pso.services.validation.impl;
 
+import javax.jcr.RepositoryException;
+
 import com.percussion.services.contentmgr.IPSNode;
 
 public class PSValidationContext {
 
 	public static enum Event {
+		UNKNOWN,
 		PRE_NEW_ITEM,
 		UPDATE_ITEM,
 		UPDATE_FOLDER,
@@ -19,7 +22,7 @@ public class PSValidationContext {
 		CHECKIN_ITEM,
 		CHECKOUT_ITEM};
 	
-	private Event event;
+	private Event event=Event.UNKNOWN;
 	private IPSNode node;
 	private int folderId;
 	/**
@@ -75,7 +78,13 @@ public class PSValidationContext {
 	 */
 	@Override
 	public String toString() {
-		return "PSValidationContext [event=" + event + ", node=" + node
+		String nodeName=null;
+		try {
+			if (node!=null) nodeName=node.getName();
+		} catch (RepositoryException e) {
+			nodeName="RepositoryException";
+		}
+		return "PSValidationContext [event=" + event + ", node=" + nodeName
 				+ ", folderId=" + folderId + ", sourceFolderId="
 				+ sourceFolderId + "]";
 	}

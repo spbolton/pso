@@ -53,7 +53,7 @@ public class PSJexlValidator implements IPSValidator   {
 	public PSValidationResult validate(PSValidationContext context)
 			throws PSValidationException {
 		log.debug("Calling PSJexlValidator.validate with context "+context.toString());
-		PSValidationResult result = new PSValidationResult();
+		PSValidationResult result = new PSValidationResult(context);
 		PSValidationJexlEvaluator eval = new PSValidationJexlEvaluator(context,result);
 		try{
 			Object v = eval.evaluate(PSJexlEvaluator.createScript(this.getValidationJexl()));

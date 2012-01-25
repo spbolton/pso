@@ -61,6 +61,35 @@ public class PSOItemXMLSupport
       }
       return null; 
    }
+   
+   /**
+    * Finds the fields Elements in an xml doc
+    * @param inputDoc the XML document from the content editor
+    * @return the XML element that represents the field. Will be <code>null</code> if the 
+    * field does not exist.
+    */
+   public List<Element> getFieldElements(Document inputDoc)
+   {
+	  List<Element> fields = new ArrayList<Element>();
+      PSXmlTreeWalker fieldWalker = new PSXmlTreeWalker(inputDoc.getDocumentElement());
+      fieldWalker.getNextElement("ItemContent",PSXmlTreeWalker.GET_NEXT_ALLOW_CHILDREN); 
+      Element field = fieldWalker.getNextElement("DisplayField", PSXmlTreeWalker.GET_NEXT_ALLOW_CHILDREN); 
+      while(field != null)
+      {
+         PSXmlTreeWalker fw = new PSXmlTreeWalker(field); 
+         Element control = fw.getNextElement("Control", PSXmlTreeWalker.GET_NEXT_ALLOW_CHILDREN);
+         if(control != null)
+         {
+            String fld = control.getAttribute("paramName");
+            if(StringUtils.isNotBlank(fld))
+            {  //the field name matches
+              fields.add(field);
+            }
+         }
+         field = fieldWalker.getNextElement("DisplayField", PSXmlTreeWalker.GET_NEXT_ALLOW_SIBLINGS); 
+      }
+      return null; 
+   }
 
    /**
     * Finds the String value for a field element.  

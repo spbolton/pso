@@ -6,9 +6,15 @@ import java.util.List;
 import com.percussion.pso.services.validation.impl.PSValidationContext.Event;
 
 public class PSValidationResult  {
-	private List<PSValidationError>  errors;
+	private List<PSValidationError>  errors = new ArrayList<PSValidationError>();
 	private boolean continueOnError = false;
+	private Event event = Event.UNKNOWN;
 	
+
+	public PSValidationResult(PSValidationContext context) {
+		this.event=context.getEvent();
+	}
+
 	/**
 	 * @return the errors
 	 */
@@ -27,7 +33,7 @@ public class PSValidationResult  {
 	 * @param message the error message
 	 */
 	public void addError(String message) {
-		PSValidationError error = new PSValidationError(message);
+		PSValidationError error = new PSValidationError(message,event);
 		addError(error);
 	}
 
@@ -67,7 +73,14 @@ public class PSValidationResult  {
 	}
 
 
-	
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -97,8 +110,9 @@ public class PSValidationResult  {
 			this.errorEvent = errorEvent;
 		}
 
-		public PSValidationError(String message) {
+		public PSValidationError(String message, Event event) {
 			this.setErrorMessage(message);
+			this.setErrorEvent(event);
 		}
 
 		/**
@@ -107,6 +121,8 @@ public class PSValidationResult  {
 		public String getErrorMessage() {
 			return errorMessage;
 		}
+		
+		
 
 		/**
 		 * @param errorMessage the errorMessage to set
